@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=DM+Sans:wght@500&family=Fira+Sans+Condensed:wght@500&family=Nunito+Sans&family=Open+Sans&display=swap');
+
+:root{
+    --var-bg-color: #171123;
+    --var-text-color: white;
+    --var-dark-blue: #414770;
+    --var-light-blue: #5b85aa;
+
+    /* Font Styles */
+    --var-normal-font: 'DM Sans', sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(206, 200, 200);
+    padding: 20px;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.form .form-input-container{
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+
+.submit-btn{
+    cursor: pointer;
+}
+
+.error-message{
+    color: red;
+}
+
+.success-message{
+    color: green;
+}
+
+/* Mai Content */
+.main-content{
+
+}
