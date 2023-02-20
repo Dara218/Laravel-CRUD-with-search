@@ -28,4 +28,19 @@ class PostController extends Controller
 
         return redirect('timeline?id=' . Auth::user()->id)->with('post-deleted', 'Post deleted successfully.');
     }
+
+    public function editPost(Request $request){
+        $post = [
+            "post_value" => $request->post_value
+        ];
+
+        $updatePost = $request->validate([
+            "post_value" => "required|max:250"
+        ]);
+
+        $updatePost = Post::find($request->id);
+        $updatePost->update($post);
+
+        return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'Post updated successfully.');
+    }
 }

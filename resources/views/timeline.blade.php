@@ -11,7 +11,7 @@
 
                     @csrf
 
-                    <button type="submit" name="logout-btn">Logout</button>
+                    <button type="submit" name="logout-btn" class="logout-btn">Logout</button>
                 </form>
             </nav>
 
@@ -23,32 +23,38 @@
 
                     @csrf
 
-                    <div class="input-group mb-5">
-                        <textarea class="form-control" aria-label="With textarea" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="3"></textarea>
+                    <textarea class="post_value" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="4"></textarea>
 
-                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2" name="submit-post">Post</button>
-                      </div>
+                    <button class="post-btn" type="submit" id="button-addon2" name="submit-post">Post</button>
 
                     <input type="hidden" name="email" value="{{ Auth::user()->email ?? ''}}">
 
                 </form>
 
                 @if (session()->has('post-created'))
-                <p class="success-message">{{ session('post-created') }}</p>
+                    <p class="success-message">{{ session('post-created') }}</p>
                 @endif
 
                 @if (session()->has('post-deleted'))
-                <p class="success-message">{{ session('post-deleted') }}</p>
+                    <p class="success-message">{{ session('post-deleted') }}</p>
+                @endif
 
+                @if (session()->has('post-updated'))
+                    <p class="success-message">{{ session('post-updated') }}</p>
                 @endif
 
                 @error('post_value')
-                <p class="error-message">{{ $message }}</p>
+                    <p class="error-message">{{ $message }}</p>
                 @enderror
 
                 <h2>Recent Posts</h2>
 
-                <div class="post-modal">
+                @foreach ($activeUser as $active)
+
+                <form action="{{ route('edit', $active->id) }}" method="POST" class="post-modal">
+
+                    @csrf
+
                     <i class="fa-solid fa-x"></i>
                     <p>{{ Auth::user()->fname . ' ' . Auth::user()->lname}}</p>
 
@@ -58,9 +64,8 @@
                         <button class="btn btn-dark" type="submit" id="button-addon2" name="submit-post">Post</button>
                       </div>
 
-                </div>
+                </form>
 
-                @foreach ($activeUser as $active)
                     <div class='content-editor'>
                         <h3>{{ Auth::user()->fname . ' ' . Auth::user()->lname ?? ''}}</h3>
 
