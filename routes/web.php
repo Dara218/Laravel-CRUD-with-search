@@ -22,3 +22,5 @@ Route::get('/timeline', [UserController::class, 'timeline'])->name('timeline');
 Route::post('/postProcess', [PostController::class, 'postProcess'])->name('postProcess');
 
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+Route::post('/deleteProcess/{id})', [PostController::class, 'deleteProcess'])->name('delete');

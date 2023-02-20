@@ -15,20 +15,13 @@
                 </form>
             </nav>
 
-            <div class="main-content">
-                @if (session()->has('post-created'))
-                    {{ session('post-created') }}
-                @endif
+            <div class="overlay"></div>
 
-                @error('post_value')
-                    <p class="error-message">{{ $message }}</p>
-                @enderror
+            <div class="main-content">
 
                 <form action="{{ route('postProcess') }}" method="post" class="post textarea-create-post">
 
                     @csrf
-
-                    {{-- <textarea name="post_value" ></textarea> --}}
 
                     <div class="input-group mb-5">
                         <textarea class="form-control" aria-label="With textarea" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="3"></textarea>
@@ -38,12 +31,35 @@
 
                     <input type="hidden" name="email" value="{{ Auth::user()->email ?? ''}}">
 
-                    {{-- <div class="btn-container">
-                        <button type="submit" class="main-btn post-btn" name="submit-post">Post</button>
-                    </div> --}}
                 </form>
 
+                @if (session()->has('post-created'))
+                <p class="success-message">{{ session('post-created') }}</p>
+                @endif
+
+                @if (session()->has('post-deleted'))
+                <p class="success-message">{{ session('post-deleted') }}</p>
+
+                @endif
+
+                @error('post_value')
+                <p class="error-message">{{ $message }}</p>
+                @enderror
+
                 <h2>Recent Posts</h2>
+
+                <div class="post-modal">
+                    <i class="fa-solid fa-x"></i>
+                    <p>{{ Auth::user()->fname . ' ' . Auth::user()->lname}}</p>
+
+                    <div class="input-group mb-5">
+                        <textarea class="form-control" aria-label="With textarea" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="3"></textarea>
+
+                        <button class="btn btn-dark" type="submit" id="button-addon2" name="submit-post">Post</button>
+                      </div>
+
+                </div>
+
                 @foreach ($activeUser as $active)
                     <div class='content-editor'>
                         <h3>{{ Auth::user()->fname . ' ' . Auth::user()->lname ?? ''}}</h3>
@@ -55,11 +71,11 @@
                         <div class='content-control'>
 
                             <div>
-                                <span id="date-created">Post created</span>
+                                <span id="date-created">{{ $active->created_at }}</span>
 
-                                <a href='' class='edit-post'>Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href='' class='edit-post' data-post-value="{{ $active->post_value }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
 
-                                <form action="" method="POST">
+                                <form action="{{ route('delete', $active->id) }}" method="POST">
 
                                     @csrf
 
