@@ -3,20 +3,22 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckActiveSession;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', [UserController::class, 'login'])->middleware('guest');
+Auth::routes();
 
-Route::get('/register', [UserController::class, 'register'])->middleware('guest');
+Route::get('/', [UserController::class, 'login']);
 
-Route::post('/registerUser', [UserController::class, 'registerUser'])->name('registerUser')->middleware('guest');
+Route::get('/register', [UserController::class, 'register']);
 
-Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/registerUser', [UserController::class, 'registerUser'])->name('registerUser');
 
-Route::post('/loginUser', [UserController::class, 'loginUser'])->name('loginUser')->middleware('guest');
+Route::get('/login', [UserController::class, 'login'])->name('login');
 
-Route::get('/timeline', [UserController::class, 'timeline'])->name('timeline')->middleware('auth');
+Route::post('/loginUser', [UserController::class, 'loginUser'])->name('loginUser');
+
+Route::get('/timeline', [UserController::class, 'timeline'])->name('timeline');
 
 Route::post('/postProcess', [PostController::class, 'postProcess'])->name('postProcess');
 
-Route::post('/logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');

@@ -6,7 +6,7 @@
     <div class="main-container">
         <div class="inside-container">
             <nav class="main-nav">
-                <p>Hello, {{ Auth::user()->fname }}</p>
+                <p>Hello, {{ Auth::user()->fname ?? ''}}</p>
                 <form action="{{ route('logout') }}" method="post">
 
                     @csrf
@@ -16,37 +16,59 @@
             </nav>
 
             <div class="main-content">
+                @if (session()->has('post-created'))
+                    {{ session('post-created') }}
+                @endif
+
+                @error('post_value')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
+
                 <form action="{{ route('postProcess') }}" method="post" class="post textarea-create-post">
 
                     @csrf
 
-                    <textarea name="post_value" id="post-value"  placeholder="Hello NAME OF USER, type your post here..."></textarea>
-                    <div class="btn-container">
-                        <button type="submit" class="main-btn post-btn" name="submit-post">Post</button>
-                    </div>
+                    {{-- <textarea name="post_value" ></textarea> --}}
 
-                    <input type="hidden" name="id" value="{{ Auth::user()->id }}">
+                    <div class="input-group mb-5">
+                        <textarea class="form-control" aria-label="With textarea" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="3"></textarea>
+
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2" name="submit-post">Post</button>
+                      </div>
+
+                    <input type="hidden" name="email" value="{{ Auth::user()->email ?? ''}}">
+
+                    {{-- <div class="btn-container">
+                        <button type="submit" class="main-btn post-btn" name="submit-post">Post</button>
+                    </div> --}}
                 </form>
 
                 <h2>Recent Posts</h2>
-                {{-- @foreach ($collection as $item) --}}
+                @foreach ($activeUser as $active)
                     <div class='content-editor'>
-                        <h3>{{ Auth::user()->fname . ' ' . Auth::user()->lname }}</h3>
-                        <div class='post'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla iste natus harum officia, error exercitationem quia porro tempora aperiam, illum asperiores unde placeat? Error dolorem alias numquam aliquid voluptatem eum.</div>
+                        <h3>{{ Auth::user()->fname . ' ' . Auth::user()->lname ?? ''}}</h3>
+
+                        <div class='post'>
+                            {{ $active->post_value }}
+                        </div>
 
                         <div class='content-control'>
-                            <span id="date-created">Post created</span>
 
                             <div>
+                                <span id="date-created">Post created</span>
+
                                 <a href='' class='edit-post'>Edit <i class="fa-solid fa-pen-to-square"></i></a>
 
                                 <form action="" method="POST">
+
+                                    @csrf
+
                                     <button type="submit" name="delete-btn" class="delete-btn">Delete <i class="fa-solid fa-trash"></i></button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                {{-- @endforeach --}}
+                @endforeach
 
             </div>
         </div>

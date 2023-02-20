@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -64,7 +66,7 @@ class UserController extends Controller
             $userId = ['id' => $user->id];
 
             //session starts
-            session(['email' => $user->email]);
+            // session(['email' => $user->email]);
 
             return redirect('/timeline?id='.$userId['id'], )->with('login-success', 'Login success.');
         }
@@ -76,8 +78,9 @@ class UserController extends Controller
     }
     public function timeline()
     {
-        $email = session('email');
-        return view('timeline', ['email' => $email]);
+        $activeUser = Post::all()->where('email', '=', Auth::user()->email)->sortByDesc('updated_at');
+
+        return view('timeline', ['activeUser' => $activeUser]);
     }
 
     public function logout(Request $request){
