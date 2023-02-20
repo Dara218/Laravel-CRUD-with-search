@@ -24,7 +24,7 @@ class UserController extends Controller
         $register = $request->validate([
             "fname" => "required",
             "lname" => "required",
-            "email" => "email:rfc,dns",
+            "email" => "email:rfc,dns|unique:users,email",
             "password" => [
                 "required",
                 "min:6",
@@ -40,7 +40,7 @@ class UserController extends Controller
             "password" => Hash::make($request->input('password')),
         ]);
 
-        Auth::login($register);
+        // Auth::login($register);
 
         return redirect('/login')->with('reg-complete', 'Registration successful.');
     }

@@ -30,12 +30,41 @@ class PostController extends Controller
     }
 
     public function editPost(Request $request){
+
+        // $post = Post::find($request->id);
+
+        // if($post)
+        // {
+        //     $post->post_value = $request->post_value;
+        //     $post->id = $request->id;
+        //     // $post->email = $request->email;
+
+        //     $post->update();
+
+        //     if($post->wasChanged())
+        //     {
+        //         return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'Post updated successfully.');
+        //     }
+        //     else
+        //     {
+        //         return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'Post update failed.');
+        //     }
+        // }
+        // else
+        // {
+        //     return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'User not found.');
+        // }
+
         $post = [
-            "post_value" => $request->post_value
+            "post_value" => $request->post_value,
+            "email" => $request->email,
+            "id" => $request->id
         ];
 
         $updatePost = $request->validate([
-            "post_value" => "required|max:250"
+            "post_value" => "required|max:250",
+            "email" => "required",
+            "id" => "required"
         ]);
 
         $updatePost = Post::find($request->id);

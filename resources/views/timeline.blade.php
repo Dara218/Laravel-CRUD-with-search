@@ -1,8 +1,4 @@
 @include('partials.header')
-    @if (session()->has('login-success'))
-        {{ session('login-success') }}
-    @endif
-
     <div class="main-container">
         <div class="inside-container">
             <nav class="main-nav">
@@ -18,6 +14,10 @@
             <div class="overlay"></div>
 
             <div class="main-content">
+
+                @if (session()->has('login-success'))
+                    <p class="success-message">{{ session('login-success') }}</p>
+                @endif
 
                 <form action="{{ route('postProcess') }}" method="post" class="post textarea-create-post">
 
@@ -58,11 +58,15 @@
                     <i class="fa-solid fa-x"></i>
                     <p>{{ Auth::user()->fname . ' ' . Auth::user()->lname}}</p>
 
-                    <div class="input-group mb-5">
-                        <textarea class="form-control" aria-label="With textarea" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="3"></textarea>
+                    <div>
+                        <textarea class="form-control" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="4"></textarea>
 
-                        <button class="btn btn-dark" type="submit" id="button-addon2" name="submit-post">Post</button>
-                      </div>
+                        <input type="hidden" name="email" value="{{ $active->email }}">
+
+                        <input type="hidden" name="id" value="{{ $active->id }}" class="hidden-id">
+
+                        <button class="post-btn" type="submit" id="button-addon2" name="submit-post">Post</button>
+                    </div>
 
                 </form>
 
@@ -78,7 +82,7 @@
                             <div>
                                 <span id="date-created">{{ $active->created_at }}</span>
 
-                                <a href='' class='edit-post' data-post-value="{{ $active->post_value }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href='' class='edit-post' data-post-value="{{ $active->post_value }}" data-id="{{ $active->id }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
 
                                 <form action="{{ route('delete', $active->id) }}" method="POST">
 

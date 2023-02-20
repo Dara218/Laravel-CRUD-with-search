@@ -3,11 +3,16 @@ $(document).ready(function(){
         e.preventDefault();
         const overlay = $('.overlay')
         const postValue = $(this).data('post-value')
+        const hiddenIdValue = $(this).data('id')
 
         const postModal = $('.post-modal')
         const postValuePop = $('.form-control')
+        const postIdPop = $('.hidden-id')
 
         postValuePop.val(postValue)
+        postIdPop.val(hiddenIdValue)
+
+        console.log(hiddenIdValue);
 
         postModal.slideDown();
         overlay.show()
