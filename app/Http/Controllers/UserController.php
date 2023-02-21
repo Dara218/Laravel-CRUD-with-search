@@ -78,7 +78,12 @@ class UserController extends Controller
     }
     public function timeline()
     {
-        $activeUser = Post::all()->where('email', '=', Auth::user()->email)->sortByDesc('updated_at');
+        $activeUser = Post::where('email', '=', Auth::user()->email)
+        ->orderByDesc('updated_at')
+        ->paginate(10);
+
+
+        // $activeUser = Post::paginate(10);
 
         return view('timeline', ['activeUser' => $activeUser]);
     }

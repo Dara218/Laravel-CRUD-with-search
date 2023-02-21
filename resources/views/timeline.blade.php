@@ -31,6 +31,8 @@
 
                 </form>
 
+                {{-- <form action="{{ route() }}" method="post"></form> --}}
+
                 @if (session()->has('post-created'))
                     <p class="success-message">{{ session('post-created') }}</p>
                 @endif
@@ -53,6 +55,7 @@
 
                 <form action="{{ route('edit', $active->id) }}" method="POST" class="post-modal">
 
+                    @method('put')
                     @csrf
 
                     <i class="fa-solid fa-x"></i>
@@ -85,6 +88,7 @@
                                 <a href='' class='edit-post' data-post-value="{{ $active->post_value }}" data-id="{{ $active->id }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
 
                                 <form action="{{ route('delete', $active->id) }}" method="POST">
+                                    @method('delete')
 
                                     @csrf
 
@@ -93,8 +97,9 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
 
+                @endforeach
+                {{ $activeUser->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>

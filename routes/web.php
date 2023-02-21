@@ -23,6 +23,10 @@ Route::post('/postProcess', [PostController::class, 'postProcess'])->name('postP
 
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::post('/deleteProcess/{id})', [PostController::class, 'deleteProcess'])->name('delete');
+Route::delete('/deleteProcess/{id})', [PostController::class, 'deleteProcess'])->name('delete');
 
-Route::post('/editPost/{id}', [PostController::class, 'editPost'])->name('edit');
+Route::put('/editPost/{id}', [PostController::class, 'editPost'])->name('edit');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
