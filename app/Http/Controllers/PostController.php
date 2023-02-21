@@ -72,4 +72,16 @@ class PostController extends Controller
 
         return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'Post updated successfully.');
     }
+
+    public function search(Request $request){
+        $searchValue = $request->input('search-value');
+
+        $email = Post::find($request->email);
+
+        $activeUser= Post::where('post_value', 'like', "%$searchValue%")
+        ->orWhere('email', '=', $email)
+        ->get();
+
+        return view('timeline', compact('activeUser'));
+    }
 }

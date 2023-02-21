@@ -30,3 +30,5 @@ Route::put('/editPost/{id}', [PostController::class, 'editPost'])->name('edit');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/searchPost', [PostController::class, 'search'])->name('search');

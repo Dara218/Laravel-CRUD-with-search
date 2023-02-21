@@ -1,8 +1,10 @@
 @include('partials.header')
     <div class="main-container">
+
         <div class="inside-container">
+
             <nav class="main-nav">
-                <p>Hello, {{ Auth::user()->fname ?? ''}}</p>
+                <span>Hello, {{ Auth::user()->fname ?? ''}}</span>
                 <form action="{{ route('logout') }}" method="post">
 
                     @csrf
@@ -10,38 +12,6 @@
                     <button type="submit" name="logout-btn" class="logout-btn">Logout</button>
                 </form>
             </nav>
-
-            <nav class="navbar navbar-expand-lg bg-light">
-                <div class="container-fluid">
-                  <a class="navbar-brand" href="#">Navbar</a>
-                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Dropdown link
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </nav>
 
             <div class="overlay"></div>
 
@@ -55,15 +25,28 @@
 
                     @csrf
 
-                    <textarea class="post_value" name="post_value" id="post-value"  placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..." rows="4"></textarea>
+                    <div class="input-group mb-3">
+                        <textarea class="form-control" name="post_value" placeholder="Hello {{ Auth::user()->fname ?? ''}}, type your post here..."></textarea>
 
-                    <button class="post-btn" type="submit" id="button-addon2" name="submit-post">Post</button>
+                        <button class="btn btn-outline-secondary" name="submit-post" type="submit" >Post</button>
+                      </div>
 
                     <input type="hidden" name="email" value="{{ Auth::user()->email ?? ''}}">
 
                 </form>
 
-                {{-- <form action="{{ route() }}" method="post"></form> --}}
+                <form action="{{ route('search') }}" method="GET">
+                    <div class="row">
+                        <div class="col-6">
+                          <div class="input-group mb-3">
+
+                            <input type="text" class="form-control" placeholder="Search post" name="search-value">
+
+                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                          </div>
+                        </div>
+                      </div>
+                </form>
 
                 @if (session()->has('post-created'))
                     <p class="success-message">{{ session('post-created') }}</p>
@@ -82,6 +65,10 @@
                 @enderror
 
                 <h2>Recent Posts</h2>
+
+                {{-- @foreach ($search as $searchItem)
+                    post: {{ $searchItem }}
+                @endforeach --}}
 
                 @foreach ($activeUser as $active)
 
@@ -131,7 +118,7 @@
                     </div>
 
                 @endforeach
-                {{ $activeUser->links('pagination::bootstrap-5') }}
+                {{-- {{ $activeUser->links('pagination::bootstrap-5') }} --}}
             </div>
         </div>
     </div>
