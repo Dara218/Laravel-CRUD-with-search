@@ -82,10 +82,9 @@ class UserController extends Controller
         ->orderByDesc('updated_at')
         ->paginate(10);
 
-
         // $activeUser = Post::paginate(10);
 
-        return view('timeline', ['activeUser' => $activeUser]);
+        return view('timeline', compact('activeUser'));
     }
 
     public function logout(Request $request){

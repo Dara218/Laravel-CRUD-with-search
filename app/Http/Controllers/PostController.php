@@ -31,29 +31,7 @@ class PostController extends Controller
 
     public function editPost(Request $request){
 
-        // $post = Post::find($request->id);
-
-        // if($post)
-        // {
-        //     $post->post_value = $request->post_value;
-        //     $post->id = $request->id;
-        //     // $post->email = $request->email;
-
-        //     $post->update();
-
-        //     if($post->wasChanged())
-        //     {
-        //         return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'Post updated successfully.');
-        //     }
-        //     else
-        //     {
-        //         return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'Post update failed.');
-        //     }
-        // }
-        // else
-        // {
-        //     return redirect('timeline?id='. Auth::user()->id)->with('post-updated', 'User not found.');
-        // }
+        $post = Post::find($request->id);
 
         $post = [
             "post_value" => $request->post_value,
@@ -75,11 +53,10 @@ class PostController extends Controller
 
     public function search(Request $request){
         $searchValue = $request->input('search-value');
-
-        $email = Post::find($request->email);
+        $email = $request->input('email');
 
         $activeUser= Post::where('post_value', 'like', "%$searchValue%")
-        ->orWhere('email', '=', $email)
+        ->where('email', '=', $email)
         ->get();
 
         return view('timeline', compact('activeUser'));

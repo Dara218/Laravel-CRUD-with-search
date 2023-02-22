@@ -13,11 +13,11 @@ Route::get('/register', [UserController::class, 'register']);
 
 Route::post('/registerUser', [UserController::class, 'registerUser'])->name('registerUser');
 
-Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 
-Route::post('/loginUser', [UserController::class, 'loginUser'])->name('loginUser');
+Route::post('/loginUser', [UserController::class, 'loginUser'])->middleware('guest')->name('loginUser');
 
-Route::get('/timeline', [UserController::class, 'timeline'])->name('timeline');
+Route::get('/timeline', [UserController::class, 'timeline'])->name('timeline')->middleware('auth');
 
 Route::post('/postProcess', [PostController::class, 'postProcess'])->name('postProcess');
 

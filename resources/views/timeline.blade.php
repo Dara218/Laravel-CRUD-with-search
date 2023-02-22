@@ -36,11 +36,14 @@
                 </form>
 
                 <form action="{{ route('search') }}" method="GET">
+                    {{-- @csrf --}}
                     <div class="row">
                         <div class="col-6">
                           <div class="input-group mb-3">
 
                             <input type="text" class="form-control" placeholder="Search post" name="search-value">
+
+                            <input type="hidden" name="email" value="{{ Auth::user()->email }}">
 
                             <button class="btn btn-outline-secondary" type="submit">Search</button>
                           </div>
@@ -65,10 +68,6 @@
                 @enderror
 
                 <h2>Recent Posts</h2>
-
-                {{-- @foreach ($search as $searchItem)
-                    post: {{ $searchItem }}
-                @endforeach --}}
 
                 @foreach ($activeUser as $active)
 
